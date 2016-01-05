@@ -3,10 +3,11 @@ var colors = {
     BLUE: 1,
     NEUTRAL: 2,
     ASSASSIN: 3,
-    NUMCOLORS: 4
+    DEFAULT: 4,
+    NUMCOLORS: 5
 };
-var colorNames = ["Red", "Blue", "Neutral", "Assassin", "NumColors"];
-var cssColors = ["LightCoral", "LightBlue", "Khaki", "LightSlateGray"];
+var colorNames = ["Red", "Blue", "Neutral", "Assassin", "Default", "NumColors"];
+var cssColors = ["LightCoral", "LightBlue", "Khaki", "LightSlateGray", "Cornsilk"];
 
 var seed;
 var wordList = [];
@@ -126,7 +127,7 @@ function createTable() {
         td.width = "120px";
         td.style.border = '2px solid black';
         td.style.textAlign = 'center';
-        td.style.backgroundColor = "Cornsilk";
+        td.style.backgroundColor = cssColors[colors.DEFAULT];
         
         var color = cssColors[answerList[i]]
         
@@ -151,12 +152,31 @@ function changeColor(elem, color) {
 
 function showAnswers() {
     var tbl = document.getElementById('Table1');
+    var button = document.getElementById('AnswersButton');
+    var reveal;
+    var color;
+    
+    if(button.value == "hidden") {
+        reveal = true;
+        button.innerHTML = "Hide Answers";
+        button.value = "revealed";
+    } else {
+        reveal = false;
+        button.innerHTML = "Show Answers";
+        button.value = "hidden";
+    }
+    
     for (var i = 0, row; row = tbl.rows[i]; ++i) {
         for(var j = 0, cell; cell = row.cells[j]; ++j) {
-            // cell.style.class = "translucent";
-            var color = cssColors[answerList[i*5+j]];
+            if(reveal) {
+                color = cssColors[answerList[i*5+j]];
+            } else {
+                color = cssColors[colors.DEFAULT];
+            }
+            
             cell.style.backgroundColor = color;
             cell.style.color = "Black";
         }
     }
+    
 }
