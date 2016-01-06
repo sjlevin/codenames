@@ -7,14 +7,14 @@ var colors = {
     NUMCOLORS: 5
 };
 var colorNames = ["Red", "Blue", "Neutral", "Assassin", "Default", "NumColors"];
-var cssColors = ["LightCoral", "LightBlue", "Khaki", "SlateGray", "Cornsilk"];
+var cssColors = ["Crimson", "SteelBlue", "Wheat", "DimGray", "Cornsilk"];
 
 var seed;
 var wordList = [];
 var answerList = [];
 var startColor;
 var gameSize = 25;
-var seedLength = 4;
+var seedLength = 5;
 var enableInvertedText = false;
 
 <!-- Load the updateText on first load for now -->
@@ -57,6 +57,14 @@ function newGame() {
     generateGame();
 }
 
+function resetAnwersButton() {
+    var button = document.getElementById('AnswersButton');
+    if(button.value != "hidden") {
+        button.innerHTML = "Show Answers";
+        button.value = "hidden";
+    }
+}
+
 function generateGame() {                
     Math.seedrandom(seed);
 
@@ -66,11 +74,7 @@ function generateGame() {
     answerList = answers[0];
     startColor = answers[1];
     
-    var button = document.getElementById('AnswersButton');
-    if(button.value != "hidden") {
-        button.innerHTML = "Show Answers";
-        button.value = "hidden";
-    }
+    resetAnwersButton();
     
     var text = "<b>First Team:</b> <span style='color:" + cssColors[startColor] + "'>" + colorNames[startColor] + "</span><br /><b>Seed:</b> " + seed;
     document.getElementById("Text1").innerHTML = text;
@@ -211,11 +215,13 @@ function toggleInvertedText() {
         enableInvertedText = false;
         button.innerHTML = "Inverted Text";
         button.value = "disabled";
-        createTable();
+
     } else {
         enableInvertedText = true;
         button.innerHTML = "Normal Text";
         button.value = "enabled";
-        createTable();
     }
+    
+    createTable();
+    resetAnwersButton();
 }
