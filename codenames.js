@@ -30,6 +30,9 @@ function newSeed() {
 
 function loadGame() {
     var loadSeed = prompt("Please enter a seed");
+    if(loadSeed == undefined) {
+        return;
+    }
     var regString = "^[0-9a-z]{" + seedLength + "}$";
     var re = new RegExp(regString);
     var match = loadSeed.match(re);
@@ -55,6 +58,12 @@ function generateGame() {
     var answers = getAnswerList();
     answerList = answers[0];
     startColor = answers[1];
+    
+    var button = document.getElementById('AnswersButton');
+    if(button.value != "hidden") {
+        button.innerHTML = "Show Answers";
+        button.value = "hidden";
+    }
     
     document.getElementById("Text1").innerHTML = "Starting Team: ";
     document.getElementById("Text1").innerHTML += colorNames[startColor];
@@ -159,7 +168,6 @@ function changeColor(elem, color) {
     } else {
         elem.style.color = color;
     }
-    console.log(elem.style.class);
 }
 
 function showAnswers() {
