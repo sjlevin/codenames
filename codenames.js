@@ -15,7 +15,7 @@ var answerList = [];
 var startColor;
 var gameSize = 25;
 var seedLength = 5;
-var enableInvertedText = true;
+var enableInvertedText = false;
 
 <!-- Load the updateText on first load for now -->
 window.onload = function() {
