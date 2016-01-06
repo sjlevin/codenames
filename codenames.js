@@ -65,11 +65,8 @@ function generateGame() {
         button.value = "hidden";
     }
     
-    document.getElementById("Text1").innerHTML = "Starting Team: ";
-    document.getElementById("Text1").innerHTML += colorNames[startColor];
-    document.getElementById("Text1").innerHTML += "<br />";
-    document.getElementById("Text1").innerHTML += "Current Seed: " + seed;
-    document.getElementById("Text1").innerHTML += "<br />";
+    var text = "<b>Starting Team:</b> <span style='color:" + cssColors[startColor] + "'>" + colorNames[startColor] + "</span><br /><b>Current Seed:</b> " + seed;
+    document.getElementById("Text1").innerHTML = text;
     
     createTable();
 }
