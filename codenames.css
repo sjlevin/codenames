@@ -1,4 +1,4 @@
-.txtUpsideDown 
+.txtInverted 
 {
     filter:  progid:DXImageTransform.Microsoft.BasicImage(rotation=2);  /* IE6,IE7 */
     ms-filter: "progid:DXImageTransform.Microsoft.BasicImage(rotation=2)"; /* IE8 */
@@ -9,7 +9,7 @@
     font-family: Verdana;
 }
 
-.txtRightsideUp
+.txtNormal
 {
     display: block;
     font-weight: bold;
@@ -53,5 +53,6 @@ td
     border: 1px solid black;
     text-align: center;
     border-radius: 10px;
+    border-width: 2px;
     font-size: 2vw;
 }
