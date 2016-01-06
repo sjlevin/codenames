@@ -7,7 +7,7 @@ var colors = {
     NUMCOLORS: 5
 };
 var colorNames = ["Red", "Blue", "Neutral", "Assassin", "Default", "NumColors"];
-var cssColors = ["LightCoral", "LightBlue", "Khaki", "LightSlateGray", "Cornsilk"];
+var cssColors = ["LightCoral", "LightBlue", "Khaki", "SlateGray", "Cornsilk"];
 
 var seed;
 var wordList = [];
@@ -134,9 +134,9 @@ function createTable() {
         var word = wordList[i];
         var text;
         if(enableInvertedText) {
-            text = "<span class='txtUpsideDown'>"+ word + "</span><br /><span class='txtRightsideUp'>" + word + "</span>";
+            text = "<span class='txtInverted'>"+ word + "</span><br /><span class='txtNormal'>" + word + "</span>";
         } else {
-            text = "<br /><span class='txtRightsideUp'>" + word + "</span><br />";
+            text = "<span class='txtNormal'>" + word + "</span>";
         }
         td.innerHTML = text;
         td.style.backgroundColor = cssColors[colors.DEFAULT];
