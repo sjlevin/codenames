@@ -24,19 +24,26 @@ html, body
     margin: 0;
 }
 
+body
+{
+    display: table;
+}
+
 button
 {
     margin: 5px;
     height: 48px;
 }
 
+#upperDiv
+{
+    display: table-row;
+    height: 100px;
+}
+
 #tableDiv
 {
-    margin: 0;
-    top: 0;
-    bottom: 0;
-    margin-top: 110px;
-    position: fixed;
+    display: table-row;
 }
 
 table
