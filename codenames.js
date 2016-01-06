@@ -23,7 +23,7 @@ window.onload = function() {
 };
 
 function newSeed() {
-    var maxSeed = Array(seedLength).join("z");
+    var maxSeed = Array(seedLength + 1).join("z");
     var maxGames = parseInt(maxSeed, 36);
     seed = Math.floor(maxGames * Math.random()).toString(36);
 }
