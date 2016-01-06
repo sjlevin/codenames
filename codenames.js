@@ -65,7 +65,7 @@ function generateGame() {
         button.value = "hidden";
     }
     
-    var text = "<b>Starting Team:</b> <span style='color:" + cssColors[startColor] + "'>" + colorNames[startColor] + "</span><br /><b>Current Seed:</b> " + seed;
+    var text = "<b>First Team:</b> <span style='color:" + cssColors[startColor] + "'>" + colorNames[startColor] + "</span><br /><b>Seed:</b> " + seed;
     document.getElementById("Text1").innerHTML = text;
     
     createTable();
@@ -202,12 +202,12 @@ function toggleInvertedText() {
     
     if(button.value == "enabled") {
         enableInvertedText = false;
-        button.innerHTML = "Enable Inverted Text";
+        button.innerHTML = "Inverted Text";
         button.value = "disabled";
         createTable();
     } else {
         enableInvertedText = true;
-        button.innerHTML = "Disable Inverted Text";
+        button.innerHTML = "Normal Text";
         button.value = "enabled";
         createTable();
     }
