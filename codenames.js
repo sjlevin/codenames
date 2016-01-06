@@ -3,16 +3,19 @@ var colors = {
     BLUE: 1,
     NEUTRAL: 2,
     ASSASSIN: 3,
-    NUMCOLORS: 4
+    DEFAULT: 4,
+    NUMCOLORS: 5
 };
-var colorNames = ["Red", "Blue", "Neutral", "Assassin", "NumColors"];
-var cssColors = ["LightCoral", "LightBlue", "Khaki", "LightSlateGray"];
+var colorNames = ["Red", "Blue", "Neutral", "Assassin", "Default", "NumColors"];
+var cssColors = ["LightCoral", "LightBlue", "Khaki", "LightSlateGray", "Cornsilk"];
 
 var seed;
 var wordList = [];
 var answerList = [];
 var startColor;
 var gameSize = 25;
+var seedLength = 5;
+var enableInvertedText = true;
 
 <!-- Load the updateText on first load for now -->
 window.onload = function() {
@@ -20,13 +23,15 @@ window.onload = function() {
 };
 
 function newSeed() {
-    var maxGames = parseInt('zzzz', 36);
+    var maxSeed = Array(seedLength).join("z");
+    var maxGames = parseInt(maxSeed, 36);
     seed = Math.floor(maxGames * Math.random()).toString(36);
 }
 
 function loadGame() {
     var loadSeed = prompt("Please enter a seed");
-    var re = /[0-9a-z]{4}/;
+    var regString = "^[0-9a-z]{" + seedLength + "}$";
+    var re = new RegExp(regString);
     var match = loadSeed.match(re);
     
     if(match == null) {
@@ -61,6 +66,8 @@ function generateGame() {
 }
 
 function shuffleArray(array) {
+    // Fisher-Yates shuffle
+    
     var i = array.length, temp, index;
     while (i > 0) {
         index = Math.floor(i * Math.random());
@@ -72,11 +79,16 @@ function shuffleArray(array) {
 }
 
 function getRandomWordList() {
-    var wordSet = {}, index;
-    for(var i = masterWordList.length - gameSize + 1; i <= masterWordList.length; ++i) {
-        index = Math.floor(i * Math.random());
-        if(wordSet[masterWordList[index]] == undefined) {
-            wordSet[masterWordList[index]] = "null";
+    // Floyd's Random Sample algorithm
+    var wordSet = {};
+    
+    for(var i = masterWordList.length - gameSize; i < masterWordList.length; ++i) {
+        var j = Math.floor(i * Math.random());
+        var iWord = masterWordList[i];
+        var jWord = masterWordList[j];
+        
+        if(wordSet[masterWordList[j]] == undefined) {
+            wordSet[masterWordList[j]] = "null";
         } else {
             wordSet[masterWordList[i]] = "null";
         }
@@ -84,6 +96,7 @@ function getRandomWordList() {
     
     var wordArray = Object.keys(wordSet).sort();
     shuffleArray(wordArray);
+    
     return wordArray;
 }
 
@@ -119,14 +132,14 @@ function createTable() {
         }
         var td = tr.insertCell();
         var word = wordList[i];
-        var text = "<span class='txtUpsideDown'>"+ word + "</span><br /><span class='txtRightsideUp'>" + word + "</span>";
+        var text;
+        if(enableInvertedText) {
+            text = "<span class='txtUpsideDown'>"+ word + "</span><br /><span class='txtRightsideUp'>" + word + "</span>";
+        } else {
+            text = "<br /><span class='txtRightsideUp'>" + word + "</span><br />";
+        }
         td.innerHTML = text;
-        td['class'] = "Joe";
-        td.height = "60px";
-        td.width = "120px";
-        td.style.border = '2px solid black';
-        td.style.textAlign = 'center';
-        td.style.backgroundColor = "Cornsilk";
+        td.style.backgroundColor = cssColors[colors.DEFAULT];
         
         var color = cssColors[answerList[i]]
         
@@ -151,12 +164,46 @@ function changeColor(elem, color) {
 
 function showAnswers() {
     var tbl = document.getElementById('Table1');
+    var button = document.getElementById('AnswersButton');
+    var reveal;
+    var color;
+    
+    if(button.value == "hidden") {
+        reveal = true;
+        button.innerHTML = "Hide Answers";
+        button.value = "revealed";
+    } else {
+        reveal = false;
+        button.innerHTML = "Show Answers";
+        button.value = "hidden";
+    }
+    
     for (var i = 0, row; row = tbl.rows[i]; ++i) {
         for(var j = 0, cell; cell = row.cells[j]; ++j) {
-            // cell.style.class = "translucent";
-            var color = cssColors[answerList[i*5+j]];
+            if(reveal) {
+                color = cssColors[answerList[i*5+j]];
+            } else {
+                color = cssColors[colors.DEFAULT];
+            }
+            
             cell.style.backgroundColor = color;
             cell.style.color = "Black";
         }
+    }    
+}
+
+function toggleInvertedText() {
+    var button = document.getElementById('ToggleInvertedButton');
+    
+    if(button.value == "enabled") {
+        enableInvertedText = false;
+        button.innerHTML = "Enable Inverted Text";
+        button.value = "disabled";
+        createTable();
+    } else {
+        enableInvertedText = true;
+        button.innerHTML = "Disable Inverted Text";
+        button.value = "enabled";
+        createTable();
     }
 }
