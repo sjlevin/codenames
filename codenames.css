@@ -27,6 +27,7 @@ html, body
 button
 {
     margin: 5px;
+    height: 48px;
 }
 
 #tableDiv
@@ -34,7 +35,7 @@ button
     margin: 0;
     top: 0;
     bottom: 0;
-    margin-top: 95px;
+    margin-top: 110px;
     position: fixed;
 }
 
