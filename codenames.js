@@ -14,7 +14,7 @@ var wordList = [];
 var answerList = [];
 var startColor;
 var gameSize = 25;
-var seedLength = 5;
+var seedLength = 4;
 var enableInvertedText = false;
 
 <!-- Load the updateText on first load for now -->
@@ -23,9 +23,16 @@ window.onload = function() {
 };
 
 function newSeed() {
-    var maxSeed = Array(seedLength + 1).join("z");
-    var maxGames = parseInt(maxSeed, 36);
-    seed = Math.floor(maxGames * Math.random()).toString(36);
+    var newSeed = "";
+    var a = "a".charCodeAt(0);
+    var alphabetSize = 26;
+    
+    for(var i = 0; i < seedLength; ++i)
+    {
+        var offset = Math.floor(alphabetSize * Math.random());
+        newSeed += String.fromCharCode(a + offset);
+    }
+    seed = newSeed;
 }
 
 function loadGame() {
@@ -33,7 +40,7 @@ function loadGame() {
     if(loadSeed == undefined) {
         return;
     }
-    var regString = "^[0-9a-z]{" + seedLength + "}$";
+    var regString = "^[a-z]{" + seedLength + "}$";
     var re = new RegExp(regString);
     var match = loadSeed.match(re);
     
