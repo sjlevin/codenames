@@ -36,7 +36,7 @@ function newSeed() {
 }
 
 function loadGame() {
-    var loadSeed = prompt("Please enter a seed");
+    var loadSeed = prompt("Please enter a Game ID");
     if(loadSeed == undefined) {
         return;
     }
@@ -76,7 +76,7 @@ function generateGame() {
     
     resetAnwersButton();
     
-    var text = "<b>First Team:</b> <span style='color:" + cssColors[startColor] + "'>" + colorNames[startColor] + "</span><br /><b>Seed:</b> " + seed;
+    var text = "<b>First Team:</b> <span style='color:" + cssColors[startColor] + "'>" + colorNames[startColor] + "</span><br /><b>Game ID:</b> " + seed;
     document.getElementById("Text1").innerHTML = text;
     
     createTable();
