@@ -83,7 +83,7 @@ function loadGame() {
     var match = loadSeed.match(re);
     
     if(match == null) {
-        alert("'" + loadSeed + "' is not a valid seed");
+        alert("'" + loadSeed + "' is not a valid Game ID");
     } else {
         var intSeed = stringSeedToInt(loadSeed);
         seed = intSeed;
