@@ -19,20 +19,58 @@ var enableInvertedText = false;
 
 <!-- Load the updateText on first load for now -->
 window.onload = function() {
+    newSeed();
     newGame();
 };
 
+function stringSeedToInt(stringSeed) {
+    return parseInt(stringSeed, 36);
+}
+
+function intSeedToString(intSeed) {
+    return intSeed.toString(36);
+}
+
+String.prototype.replaceAt=function(index, character) {
+    return this.substr(0, index) + character + this.substr(index+character.length);
+}
+
+function incrementSeed() {  
+    var stringSeed = intSeedToString(seed);
+    for(i = seedLength - 1; i >= 0; i--) {
+        var c = String.fromCharCode(stringSeed.charCodeAt(i) + 1);
+        if(c == "{") {
+            c = "a";
+            stringSeed = stringSeed.replaceAt(i, c);
+        }
+        else {
+            stringSeed = stringSeed.replaceAt(i, c);
+            break;
+        }
+    }
+    
+    seed = stringSeedToInt(stringSeed);    
+}
+
 function newSeed() {
-    var newSeed = "";
+    var tempSeed = "";
     var a = "a".charCodeAt(0);
     var alphabetSize = 26;
     
+    Math.seedrandom();
+
     for(var i = 0; i < seedLength; ++i)
     {
         var offset = Math.floor(alphabetSize * Math.random());
-        newSeed += String.fromCharCode(a + offset);
+        tempSeed += String.fromCharCode(a + offset);
     }
-    seed = newSeed;
+        
+    var intSeed = stringSeedToInt(tempSeed);
+    seed = intSeed;
+    
+    while(seed % 16) {
+        incrementSeed();
+    }
 }
 
 function loadGame() {
@@ -47,13 +85,14 @@ function loadGame() {
     if(match == null) {
         alert("'" + loadSeed + "' is not a valid seed");
     } else {
-        seed = loadSeed;
+        var intSeed = stringSeedToInt(loadSeed);
+        seed = intSeed;
         generateGame();
     }
 }
 
 function newGame() {
-    newSeed();
+    incrementSeed();
     generateGame();
 }
 
@@ -65,9 +104,7 @@ function resetAnwersButton() {
     }
 }
 
-function generateGame() {                
-    Math.seedrandom(seed);
-
+function generateGame() {                   
     wordList = getRandomWordList();
     
     var answers = getAnswerList();
@@ -76,7 +113,7 @@ function generateGame() {
     
     resetAnwersButton();
     
-    var text = "<b>First Team:</b> <span style='color:" + cssColors[startColor] + "'>" + colorNames[startColor] + "</span><br /><b>Game ID:</b> " + seed;
+    var text = "<b>First Team:</b> <span style='color:" + cssColors[startColor] + "'>" + colorNames[startColor] + "</span><br /><b>Game ID:</b> " + intSeedToString(seed);
     document.getElementById("Text1").innerHTML = text;
     
     createTable();
@@ -96,29 +133,29 @@ function shuffleArray(array) {
 }
 
 function getRandomWordList() {
-    // Floyd's Random Sample algorithm
-    var wordSet = {};
+    var wordArray = [];
+    var masterArrayClone = masterWordList.slice(0);
     
-    for(var i = masterWordList.length - gameSize; i < masterWordList.length; ++i) {
-        var j = Math.floor(i * Math.random());
-        var iWord = masterWordList[i];
-        var jWord = masterWordList[j];
-        
-        if(wordSet[masterWordList[j]] == undefined) {
-            wordSet[masterWordList[j]] = "null";
-        } else {
-            wordSet[masterWordList[i]] = "null";
-        }
+    var seedInt = stringSeedToInt(seed);
+    var randomizerIndex = seedInt & 0xF; //todo: use this
+    var randomizerSeed = seedInt - randomizerIndex;
+    
+    Math.seedrandom(randomizerSeed);
+    shuffleArray(masterArrayClone);
+    
+    for(i = 0, j = randomizerIndex * 16; i < gameSize; ++i, j++) {
+        wordArray[i] = masterArrayClone[j];
     }
     
-    var wordArray = Object.keys(wordSet).sort();
-    shuffleArray(wordArray);
-    
     return wordArray;
+    
 }
 
 function getAnswerList() {
     var startColor;
+    
+    Math.seedrandom(seed);
+
     if(Math.random() >= .5) {
         startColor = colors.RED
     } else {
