@@ -220,7 +220,7 @@ var masterWordList = [
 "MILLIONAIRE",
 "MINE",
 "MINT",
-"MISSLE",
+"MISSILE",
 "MODEL",
 "MOLE",
 "MOON",
