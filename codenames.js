@@ -143,7 +143,7 @@ function getRandomWordList() {
     Math.seedrandom(randomizerSeed);
     shuffleArray(masterArrayClone);
     
-    for(i = 0, j = randomizerIndex * 16; i < gameSize; ++i, j++) {
+    for(i = 0, j = randomizerIndex * gameSize; i < gameSize; ++i, j++) {
         wordArray[i] = masterArrayClone[j];
     }
     
